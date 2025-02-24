@@ -1,5 +1,5 @@
 import "dotenv/config"
-import { Odyssey, BN } from "../../src"
+import { Odyssey, BN, Buffer } from "../../src"
 import { OmegaVMAPI, KeyChain as OmegaVMKeyChain } from "../../src/apis/omegavm"
 import {
   DELTAAPI,
@@ -14,16 +14,17 @@ import {
   costImportTx
 } from "../../src/utils"
 
-const ip = process.env.IP
-const port = Number(process.env.PORT)
+const ip = process.env.TEST_IP
+const port = Number(process.env.ODYSSEY_PORT)
 const protocol = process.env.PROTOCOL
-const networkID = Number(process.env.NETWORK_ID)
+const networkID = Number(process.env.TEST_NETWORK_ID)
 const odyssey: Odyssey = new Odyssey(ip, port, protocol, networkID)
 const ochain: OmegaVMAPI = odyssey.OChain()
 const dchain: DELTAAPI = odyssey.DChain()
 const oKeychain: OmegaVMKeyChain = ochain.keyChain()
-const dHexAddress: string = "0x8db97C7cEcE249c2b98bDC0226Cc4C2A57BF52FC"
-const privKey: Buffer = new Buffer(DefaultLocalGenesisPrivateKey, "hex")
+const dHexAddress: string = ""
+const privKey: Buffer = new Buffer("", "hex")
+
 const dKeychain: DELTAKeyChain = dchain.keyChain()
 oKeychain.importKey(privKey)
 dKeychain.importKey(privKey)
@@ -38,6 +39,7 @@ const main = async (): Promise<any> => {
     dAddressStrings,
     oChainBlockchainId
   )
+  console.log(deltaUTXOResponse)
   const utxoSet: UTXOSet = deltaUTXOResponse.utxos
   let unsignedTx: UnsignedTx = await dchain.buildImportTx(
     utxoSet,

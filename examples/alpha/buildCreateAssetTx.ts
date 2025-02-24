@@ -15,14 +15,14 @@ import {
   DefaultLocalGenesisPrivateKey
 } from "../../src/utils"
 
-const ip = process.env.LOCAL_IP
-const port = Number(process.env.LOCAL_PORT)
-const protocol = process.env.LOCAL_PROTOCOL
-const networkID = Number(process.env.LOCAL_NETWORK_ID)
+const ip = process.env.IP
+const port = Number(process.env.PORT)
+const protocol = process.env.PROTOCOL
+const networkID = Number(process.env.NETWORK_ID)
 const odyssey: Odyssey = new Odyssey(ip, port, protocol, networkID)
 const achain: ALPHAAPI = odyssey.AChain()
 const aKeychain: KeyChain = achain.keyChain()
-const privKey: Buffer = new Buffer("7b0bb24b8d95ae393c95ef59d8704b22de7a85016dae49116fc24da5033c7d9d", "hex")
+const privKey: Buffer = new Buffer(DefaultLocalGenesisPrivateKey, "hex")
 aKeychain.importKey(privKey)
 const aAddresses: Buffer[] = achain.keyChain().getAddresses()
 const aAddressStrings: string[] = achain.keyChain().getAddressStrings()
@@ -32,20 +32,16 @@ const locktime: BN = new BN(0)
 const memo: Buffer = Buffer.from(
   "ALPHA utility method buildCreateAssetTx to create an ANT"
 )
-const name: string = "AbanoubToken"
-const symbol: string = "ABAN"
+const name: string = "TestToken"
+const symbol: string = "TEST"
 const denomination: number = 3
 
-console.log('-----')
 const main = async (): Promise<any> => {
-
-  console.log('-----')
   const alphaUTXOResponse: GetUTXOsResponse = await achain.getUTXOs(
     aAddressStrings
   )
   const utxoSet: UTXOSet = alphaUTXOResponse.utxos
 
-  console.log('-----')
   const amount: BN = new BN(507)
   const vcapSecpOutput = new SECPTransferOutput(
     amount,
@@ -54,7 +50,7 @@ const main = async (): Promise<any> => {
     threshold
   )
   const initialStates: InitialStates = new InitialStates()
-  initialStates.addOutput(vcapSecpOutput as any)
+  initialStates.addOutput(vcapSecpOutput)
 
   const secpMintOutput: SECPMintOutput = new SECPMintOutput(
     aAddresses,
@@ -63,7 +59,6 @@ const main = async (): Promise<any> => {
   )
   outputs.push(secpMintOutput)
 
-  console.log('-----')
   const unsignedTx: UnsignedTx = await achain.buildCreateAssetTx(
     utxoSet,
     aAddressStrings,
@@ -75,7 +70,6 @@ const main = async (): Promise<any> => {
     outputs,
     memo
   )
-  console.log('-----')
   const tx: Tx = unsignedTx.sign(aKeychain)
   const txid: string = await achain.issueTx(tx)
   console.log(`Success! TXID: ${txid}`)

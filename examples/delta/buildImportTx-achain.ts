@@ -22,8 +22,8 @@ const odyssey: Odyssey = new Odyssey(ip, port, protocol, networkID)
 const achain: ALPHAAPI = odyssey.AChain()
 const dchain: DELTAAPI = odyssey.DChain()
 const aKeychain: ALPHAKeyChain = achain.keyChain()
-const dHexAddress: string = "0x7C6689B86B66c462a6F668Ac99Aa9CBf7bfE9fAf"
-const key = "7b0bb24b8d95ae393c95ef59d8704b22de7a85016dae49116fc24da5033c7d9d"
+const dHexAddress: string = "0x3B90Beea0B5a93EF3cAD0244DC6be0c1aA0Ece5A"
+const key = ""
 const privKey: Buffer = new Buffer(key, "hex")
 const dKeychain: DELTAKeyChain = dchain.keyChain()
 aKeychain.importKey(privKey)

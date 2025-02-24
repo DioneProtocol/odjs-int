@@ -11,17 +11,15 @@ import {
   DefaultLocalGenesisPrivateKey,
   UnixNow
 } from "../../src/utils"
-import { log } from "console"
 
-const ip = process.env.IP
-const port = Number(process.env.PORT)
+const ip = process.env.TEST_IP
+const port = Number(process.env.ODYSSEY_PORT)
 const protocol = process.env.PROTOCOL
-const networkID = Number(process.env.NETWORK_ID)
+const networkID = Number(process.env.TEST_NETWORK_ID)
 const odyssey: Odyssey = new Odyssey(ip, port, protocol, networkID)
 const ochain: OmegaVMAPI = odyssey.OChain()
 const oKeychain: KeyChain = ochain.keyChain()
-// const privKey: Buffer = new Buffer(DefaultLocalGenesisPrivateKey, "hex")
-const privKey: Buffer = new Buffer("7b0bb24b8d95ae393c95ef59d8704b22de7a85016dae49116fc24da5033c7d9d", "hex")
+const privKey: Buffer = new Buffer("19c1b4b6f406696e350de886e5164502c0a16f837e06f738c80deecadb7053ef", "hex")
 oKeychain.importKey(privKey)
 const oAddressStrings: string[] = ochain.keyChain().getAddressStrings()
 const threshold: number = 1
@@ -30,28 +28,21 @@ const memo: Buffer = Buffer.from(
   "OmegaVM utility method buildAddValidatorTx to add a validator to the primary subnet"
 )
 
-const reward = "O-testnet1r86v49tyxa05zpfwa3pj896mv0w5mdtcdzxx34"
-const nodeID: string = "NodeID-67nS6ebQNYfkU7QidZkcqzZPft4Qrnnob"
+const reward = "O-testnet1n5qrhn6cnqhda5usk8du4s676tjpcvv00j9qth" // replace this
+const nodeID: string = "NodeID-DE8BWpgUtNkTXzjFArzS1nroouzBcXX8J" // replace this
 
 const asOf: BN = UnixNow()
 const startTime: BN = UnixNow().add(new BN(60 * 1))
-console.log("startTime: ", startTime)
-const endTime: BN = startTime.add(new BN(60 * 60 * 24 * 365))
-console.log("endTime: ", endTime)
+const endTime: BN = startTime.add(new BN(60 * 60 * 24 * 1000))
 const delegationFee: number = 10
-
+//5*10^14
+//500 000 
 const main = async (): Promise<any> => {
   const stakeAmount: any = await ochain.getMinStake()
-  console.log("stakeAmount: ", stakeAmount);
-  
+  console.log(stakeAmount.minValidatorStake.toString())
   const omegaVMUTXOResponse: any = await ochain.getUTXOs(oAddressStrings)
   const utxoSet: UTXOSet = omegaVMUTXOResponse.utxos
-  console.log("utxos:", oAddressStrings)
-  console.log("utxos:", utxoSet.getAllUTXOs())
-  // Log Minimum Validator Stake
-console.log("Minimum Validator Stake: ", stakeAmount.minValidatorStake.toString())
-
-const unsignedTx: UnsignedTx = await ochain.buildAddValidatorTx(
+  const unsignedTx: UnsignedTx = await ochain.buildAddValidatorTx(
     utxoSet,
     oAddressStrings,
     oAddressStrings,

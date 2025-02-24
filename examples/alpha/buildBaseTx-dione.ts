@@ -32,7 +32,7 @@ const odyssey: Odyssey = new Odyssey(
 )
 const achain: ALPHAAPI = odyssey.AChain()
 const aKeychain: KeyChain = achain.keyChain()
-const privKey: Buffer = new Buffer("Ab46a616f41759b94b1f14787ad65ba47c89f9241b877e186853009317056529", "hex")
+const privKey: Buffer = new Buffer(DefaultLocalGenesisPrivateKey, "hex")
 aKeychain.importKey(privKey)
 const aAddressStrings: string[] = achain.keyChain().getAddressStrings()
 const asOf: BN = UnixNow()

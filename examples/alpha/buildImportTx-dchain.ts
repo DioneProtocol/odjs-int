@@ -14,14 +14,14 @@ import {
   UnixNow
 } from "../../src/utils"
 
-const ip = process.env.IP
-const port = Number(process.env.PORT)
+const ip = process.env.TEST_IP
+const port = Number(process.env.ODYSSEY_PORT)
 const protocol = process.env.PROTOCOL
-const networkID = Number(process.env.NETWORK_ID)
+const networkID = Number(process.env.TEST_NETWORK_ID)
 const odyssey: Odyssey = new Odyssey(ip, port, protocol, networkID)
 const achain: ALPHAAPI = odyssey.AChain()
 const aKeychain: KeyChain = achain.keyChain()
-const key = "7b0bb24b8d95ae393c95ef59d8704b22de7a85016dae49116fc24da5033c7d9d"
+const key = "fcc3f0b0e8a622b50ff969c4f4f12f572c77b1b03429441df3b9c2617d126470"
 const privKey: Buffer = new Buffer(key, "hex")
 aKeychain.importKey(privKey)
 const aAddressStrings: string[] = achain.keyChain().getAddressStrings()
@@ -33,7 +33,6 @@ const memo: Buffer = Buffer.from(
   "ALPHA utility method buildImportTx to import DIONE to the A-Chain from the D-Chain"
 )
 
-console.log("--initialized--");
 const main = async (): Promise<any> => {
   const alphaUTXOResponse: GetUTXOsResponse = await achain.getUTXOs(
     aAddressStrings,
@@ -53,12 +52,9 @@ const main = async (): Promise<any> => {
     locktime,
     threshold
   )
-  console.log("--signing--")
   const tx: Tx = unsignedTx.sign(aKeychain)
-  console.log('--issueing--')
   const txid: string = await achain.issueTx(tx)
-  console.log(`A chain address: ${aAddressStrings}`)
   console.log(`Success! TXID: ${txid}`)
 }
 
-main().then(r => console.log("---")).catch(e => console.error(e))
+main()

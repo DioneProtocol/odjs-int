@@ -11,8 +11,13 @@ const odyssey: Odyssey = new Odyssey(ip, port, protocol, networkID)
 const health: HealthAPI = odyssey.Health()
 
 const main = async (): Promise<any> => {
-  const healthResponse: HealthResponse = await health.health()
+  try{
+    const healthResponse: HealthResponse = await health.health()
   console.log(healthResponse)
+  }catch(e){
+    console.log(e)
+  }
+  
 }
 
 main()

@@ -23,7 +23,7 @@ const achain: ALPHAAPI = odyssey.AChain()
 const ochain: OmegaVMAPI = odyssey.OChain()
 const aKeychain: ALPHAKeyChain = achain.keyChain()
 const oKeychain: KeyChain = ochain.keyChain()
-const key = "7b0bb24b8d95ae393c95ef59d8704b22de7a85016dae49116fc24da5033c7d9d"
+const key = ""
 const privKey: Buffer = new Buffer(key, "hex")
 aKeychain.importKey(privKey)
 oKeychain.importKey(privKey)
@@ -39,15 +39,15 @@ const memo: Buffer = Buffer.from(
 const asOf: BN = UnixNow()
 
 const main = async (): Promise<any> => {
-  const getBalanceResponse = await ochain.getBalance(oAddressStrings)
+  const getBalanceResponse: any = await ochain.getBalance(oAddressStrings)
   // const unlocked: BN = new BN(getBalanceResponse.unlocked)
   const unlocked: BN = new BN(100000000000)
   const omegaVMUTXOResponse: any = await ochain.getUTXOs(oAddressStrings)
   const utxoSet: UTXOSet = omegaVMUTXOResponse.utxos
-  console.log(getBalanceResponse.balance.toString())
+  console.log(unlocked.toString())
   const unsignedTx: UnsignedTx = await ochain.buildExportTx(
     utxoSet,
-    new BN(500000000000000),
+    new BN(1000),
     aChainBlockchainID,
     aAddressStrings,
     oAddressStrings,

@@ -13,17 +13,18 @@ import {
   Defaults,
   UnixNow
 } from "../../src/utils"
+import { get } from "http"
 
-const ip = process.env.IP
-const port = Number(process.env.PORT)
+const ip = process.env.TEST_IP
+const port = Number(process.env.ODYSSEY_PORT)
 const protocol = process.env.PROTOCOL
-const networkID = Number(process.env.NETWORK_ID)
+const networkID = Number(process.env.TEST_NETWORK_ID)
 const odyssey: Odyssey = new Odyssey(ip, port, protocol, networkID)
 const achain: ALPHAAPI = odyssey.AChain()
 const ochain: OmegaVMAPI = odyssey.OChain()
 const aKeychain: ALPHAKeyChain = achain.keyChain()
 const oKeychain: KeyChain = ochain.keyChain()
-const privKey: Buffer = new Buffer(DefaultLocalGenesisPrivateKey, "hex")
+const privKey: Buffer = new Buffer("19c1b4b6f406696e350de886e5164502c0a16f837e06f738c80deecadb7053ef", "hex")
 aKeychain.importKey(privKey)
 oKeychain.importKey(privKey)
 const aAddressStrings: string[] = achain.keyChain().getAddressStrings()
@@ -39,6 +40,8 @@ const asOf: BN = UnixNow()
 
 const main = async (): Promise<any> => {
   const getBalanceResponse: any = await ochain.getBalance(oAddressStrings)
+  console.log(getBalanceResponse)
+  console.log("fee", fee.toString())
   const unlocked: BN = new BN(getBalanceResponse.unlocked)
   const omegaVMUTXOResponse: any = await ochain.getUTXOs(oAddressStrings)
   const utxoSet: UTXOSet = omegaVMUTXOResponse.utxos
