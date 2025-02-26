@@ -1,0 +1,17 @@
+I want to combine code from these scripts to do the following
+
+1. Values to keep track of, take as input
+
+private key
+staking amount
+
+2. Check if the total balance on the input address is enough to stake
+
+Find the total of wallet address balance (D chain + O chain) 
+Compare it with the staking amount input or the minimum staking amount ( 500000 )
+
+If the balance is not enough, print not enough tokens to stake and exit the script
+
+3. Transfer the staking balance to O chain (refer to buildExportTx-ochain.ts)
+If the balance on the O chain is not enough, transfer the balance from D chain to the O chain
+

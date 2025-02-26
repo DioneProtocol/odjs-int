@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  odyssey-validator:
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+    container_name: odyssey-validator
+    ports:
+      - "443:443"  # Adjust if your app listens on a different port.
+    env_file:
+      - .env.dockercompose       # Explicitly load the .env file for environment variables.
+    environment:
+      - NODE_ENV=production  # Additional environment variable if needed.
+    restart: unless-stopped
