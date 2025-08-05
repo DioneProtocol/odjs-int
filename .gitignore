@@ -98,6 +98,11 @@ public/
 .fusebox/
 
 # DynamoDB Local files
+
+# Environment variables
+.env
+.env.local
+.env.*.local
 .dynamodb/
 
 # JetBrains IDE

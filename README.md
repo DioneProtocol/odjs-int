@@ -64,6 +64,80 @@ This will generate a pure JavaScript library and place it in a folder named
 "web" in the project root. The "odysseyjs" file can then be dropped into any
 project as a pure JavaScript implementation of Odyssey.
 
+## Environment Setup
+
+Before running the example scripts, you need to set up your environment variables. The project includes an `env.example` file that you can use as a template.
+
+### 1. Copy the Environment Template
+
+**Option A: Use the setup script (recommended)**
+```bash
+./setup-env.sh
+```
+
+**Option B: Manual setup**
+```bash
+cp env.example .env
+```
+
+### 2. Configure Your Environment Variables
+
+Edit the `.env` file with your specific values:
+
+```bash
+# Odyssey Node Configuration
+IP=your_node_ip_address
+PORT=9650
+PROTOCOL=http
+NETWORK_ID=5  # Use 5 for testnet, 1 for mainnet
+
+# Transaction-specific variables
+PRIVATE_KEY=your_private_key_here_without_0x_prefix
+WALLET_ADDRESS=your_ethereum_style_wallet_address
+REWARD_ADDRESS=your_ochain_reward_address
+NODE_ID=your_validator_node_id
+DELEGATION_FEE=2
+```
+
+### 3. Environment Variable Descriptions
+
+- **IP**: Your Odyssey node's IP address
+- **PORT**: Your Odyssey node's port (default: 9650)
+- **PROTOCOL**: Connection protocol (http/https)
+- **NETWORK_ID**: Network identifier (1=mainnet, 5=testnet)
+- **PRIVATE_KEY**: Your private key without the "0x" prefix
+- **WALLET_ADDRESS**: Your Ethereum-style wallet address (for D-Chain transactions)
+- **REWARD_ADDRESS**: Your O-Chain address for receiving validator rewards
+- **NODE_ID**: Your validator node ID (format: NodeID-...)
+- **DELEGATION_FEE**: Commission percentage for validator (0-100)
+
+### 4. Running Scripts with Environment Variables
+
+The example scripts use `dotenv/config` to automatically load environment variables from your `.env` file:
+
+```bash
+npx ts-node ./examples/delta/buildExportTx-ochain.ts
+npx ts-node ./examples/omegavm/buildImportTx-DChain.ts
+npx ts-node ./examples/omegavm/buildAddValidatorTx.ts
+```
+
+**⚠️ Security Note**: Never commit your `.env` file to version control. It contains sensitive information like private keys.
+
+### 5. Testing Your Setup
+
+After configuring your environment variables, you can test your setup by running a simple example:
+
+```bash
+# Test basic connectivity
+npx ts-node ./examples/info/getNetworkID.ts
+
+# Test cross-chain export (requires sufficient balance)
+npx ts-node ./examples/delta/buildExportTx-ochain.ts
+
+# Test validator setup (requires validator node)
+npx ts-node ./examples/omegavm/buildAddValidatorTx.ts
+```
+
 ## Use OdysseyJS in Projects
 
 The OdysseyJS library can be imported into your existing Node.js project as follows:

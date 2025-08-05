@@ -21,7 +21,7 @@ const networkID = Number(process.env.NETWORK_ID)
 const odyssey: Odyssey = new Odyssey(ip, port, protocol, networkID)
 const achain: ALPHAAPI = odyssey.AChain()
 const aKeychain: KeyChain = achain.keyChain()
-const key = ""
+const key = "fcc3f0b0e8a622b50ff969c4f4f12f572c77b1b03429441df3b9c2617d126470"
 const privKey: Buffer = new Buffer(key, "hex")
 aKeychain.importKey(privKey)
 const aAddressStrings: string[] = achain.keyChain().getAddressStrings()
