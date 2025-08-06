@@ -3,10 +3,12 @@
 ## [Unreleased] - Environment Variable Cleanup
 
 ### Added
-- `env.example` file with comprehensive environment variable templates
-- `setup-env.sh` script for easy environment setup
+- `.env.example` file with comprehensive environment variable templates
+- `setup-env.sh` script for easy environment setup (Linux/macOS/WSL)
+- `setup-env.bat` script for Windows compatibility
 - Environment setup documentation in README.md
 - Added `.env` files to `.gitignore` for security
+- Troubleshooting section in README.md
 
 ### Changed
 - **examples/delta/buildExportTx-ochain.ts**: 
@@ -51,7 +53,7 @@ The following environment variables are now supported:
 - Clear security warnings added to documentation
 
 ### Migration Guide
-1. Copy `env.example` to `.env`
+1. Copy `.env.example` to `.env`
 2. Fill in your specific values
 3. Update any scripts that were using hardcoded values
 4. Test with simple examples before running complex transactions 

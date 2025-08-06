@@ -4,7 +4,7 @@
   "description": "Odyssey Platform JS Library",
   "main": "dist/index.js",
   "scripts": {
-    "build": "rm -rf dist/ && npx tsc -b",
+    "build": "rm -rf dist/ && npx tsc --build",
     "prebundle": "yarn build",
     "bundle": "webpack --mode production",
     "lint": "eslint ./ --ext js,ts --fix",

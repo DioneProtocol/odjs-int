@@ -52,13 +52,29 @@ Clone the OdysseyJS repository:
 
 `git clone https://git.sfxdx.com/green-energy1/odysseyjs`
 
+Install dependencies:
+
+```bash
+npm install
+# or
+yarn install
+```
+
 Then build it:
 
-`npm run build`
+```bash
+npm run build
+# or
+yarn build
+```
 
-or
+**Note**: If you encounter TypeScript compilation errors, ensure TypeScript is installed:
 
-`yarn build`
+```bash
+npm install -g typescript
+# or
+yarn global add typescript
+```
 
 This will generate a pure JavaScript library and place it in a folder named
 "web" in the project root. The "odysseyjs" file can then be dropped into any
@@ -66,18 +82,25 @@ project as a pure JavaScript implementation of Odyssey.
 
 ## Environment Setup
 
-Before running the example scripts, you need to set up your environment variables. The project includes an `env.example` file that you can use as a template.
+Before running the example scripts, you need to set up your environment variables. The project includes a `.env.example` file that you can use as a template.
 
 ### 1. Copy the Environment Template
 
 **Option A: Use the setup script (recommended)**
+
+**Linux/macOS/WSL:**
 ```bash
 ./setup-env.sh
 ```
 
+**Windows:**
+```cmd
+setup-env.bat
+```
+
 **Option B: Manual setup**
 ```bash
-cp env.example .env
+cp .env.example .env
 ```
 
 ### 2. Configure Your Environment Variables
@@ -137,6 +160,45 @@ npx ts-node ./examples/delta/buildExportTx-ochain.ts
 # Test validator setup (requires validator node)
 npx ts-node ./examples/omegavm/buildAddValidatorTx.ts
 ```
+
+### 6. Troubleshooting
+
+#### Common Issues
+
+**Build Errors:**
+```bash
+# If you get "This is not the tsc command you are looking for"
+npm install -g typescript
+# or
+yarn global add typescript
+```
+
+**Setup Script Issues:**
+```bash
+# If setup-env.sh fails on Windows/WSL
+dos2unix setup-env.sh
+chmod +x setup-env.sh
+./setup-env.sh
+```
+
+**Node Connectivity Issues:**
+- For Docker nodes, ensure the node is accessible from your host
+- Check if the node is running: `curl http://your-node-ip:9650/ext/info`
+- Verify network ID matches your node configuration
+- For private nodes, ensure proper authentication is configured
+
+**Export Script Failures:**
+- Ensure sufficient balance in the source chain
+- Verify the destination chain is accessible
+- Check that the node is fully synced
+- For Docker deployments, ensure proper port mapping
+
+**Validator Setup Issues:**
+- The correct command is `odysseygo-installer.sh` (not `odyssey-installer.sh`)
+- Ensure you're using the correct installer script from the odysseygo-installer repository
+- For Docker-based validator setup, refer to the odysseygo-installer documentation
+
+**For more detailed troubleshooting, see [TROUBLESHOOTING.md](./TROUBLESHOOTING.md)**
 
 ## Use OdysseyJS in Projects
 
